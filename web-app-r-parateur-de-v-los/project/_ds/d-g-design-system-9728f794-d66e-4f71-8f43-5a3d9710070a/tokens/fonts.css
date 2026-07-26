@@ -1,0 +1,6 @@
+/* D-g sets everything in Inter (Google Fonts).
+   SUBSTITUTION: the source spec names "NotionInter", a proprietary tuning of Inter.
+   Inter is the sanctioned substitute; apply the negative tracking tokens explicitly. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@font-face{font-family:"Inter Fallback";src:local("Helvetica Neue"),local("Arial");ascent-override:90%;descent-override:22.43%;line-gap-override:0%}
+:root{--font-sans:"Inter","Inter Fallback",-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;--font-core:var(--font-sans);--font-display:var(--font-sans)}

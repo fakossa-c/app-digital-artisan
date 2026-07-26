@@ -1,0 +1,5 @@
+:root{
+--space-xxs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:28px;--space-xxl:32px;--space-3xl:48px;--space-4xl:80px;
+--container-max:1200px;--container-narrow:720px;--gutter:24px;
+--card-padding:var(--space-lg);--section-gap:var(--space-4xl);
+}

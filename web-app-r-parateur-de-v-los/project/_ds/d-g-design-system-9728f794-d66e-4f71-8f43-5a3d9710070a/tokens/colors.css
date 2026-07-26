@@ -1,0 +1,19 @@
+:root{
+/* base — brand */
+--blue-500:#0075de;--blue-700:#005bab;--indigo-900:#213183;
+/* base — sticker palette (decorative only) */
+--sticker-sky:#62aef0;--sticker-purple:#d6b6f6;--sticker-purple-deep:#391c57;--sticker-pink:#ff64c8;--sticker-orange:#dd5b00;--sticker-orange-deep:#793400;--sticker-teal:#2a9d99;--sticker-green:#1aae39;--sticker-brown:#523410;
+/* base — neutrals */
+--white:#ffffff;--paper:#f6f5f4;--ink-0:#000000;--ink-1:#31302e;--ink-2:#615d59;--ink-3:#a39e98;--line:#e6e6e6;--line-input:#dddddd;
+/* semantic — action */
+--action:var(--blue-500);--action-pressed:var(--blue-700);--on-action:var(--white);--focus-ring:var(--blue-500);
+/* semantic — surface */
+--canvas:var(--paper);--surface-card:var(--white);--surface-raised:var(--white);--surface-inverse:var(--indigo-900);--surface-sunken:var(--paper);--surface-translucent:rgba(0,0,0,.05);
+/* semantic — text */
+--text-heading:var(--ink-0);--text-body:var(--ink-1);--text-muted:var(--ink-2);--text-faint:var(--ink-3);--text-link:var(--blue-500);--text-on-inverse:var(--white);
+/* semantic — border */
+--border-hairline:var(--line);--border-input:var(--line-input);
+/* semantic — repair status (D-g workflow; drawn from the sticker palette, used as dots + tinted pills only) */
+--status-received:var(--sticker-sky);--status-diagnostic:var(--sticker-purple);--status-waiting-part:var(--sticker-orange);--status-in-progress:var(--sticker-teal);--status-ready:var(--sticker-green);--status-collected:var(--ink-3);
+--status-received-tint:#eaf4fd;--status-diagnostic-tint:#f6effd;--status-waiting-part-tint:#fdeee4;--status-in-progress-tint:#e6f4f3;--status-ready-tint:#e7f7ea;--status-collected-tint:#f0efee;
+}

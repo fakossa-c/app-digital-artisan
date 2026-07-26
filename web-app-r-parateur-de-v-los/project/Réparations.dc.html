@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/tokens/elevation.css">
+  <link rel="stylesheet" href="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/tokens/motion.css">
+  <link rel="stylesheet" href="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/styles.css">
+  <script src="_ds/d-g-design-system-9728f794-d66e-4f71-8f43-5a3d9710070a/_ds_bundle.js"></script>
+  <style>
+    html, body { margin: 0; padding: 0; background: var(--canvas); }
+    @keyframes dgToastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    a { color: var(--text-link); }
+    a:hover { color: var(--action-pressed); }
+    table { border-collapse: collapse; }
+  </style>
+</helmet>
+
+<div lang="fr" style="min-height: 100vh; background: var(--canvas); font-family: var(--font-sans); color: var(--text-body); font-feature-settings: 'lnum' 1;">
+
+  <div style="display: flex; align-items: center; gap: 16px; padding: 10px 24px; border-bottom: 1px dashed var(--border-input); background: var(--surface-card); flex-wrap: wrap;">
+    <span style="font-size: 12px; font-weight: 600; letter-spacing: .125px; text-transform: uppercase; color: var(--text-faint);">Aperçu</span>
+    <div style="display: flex; gap: 6px;">
+      <sc-for list="{{ variantOptions }}" as="v" hint-placeholder-count="3">
+        <button type="button" onClick="{{ v.select }}" style="min-height: 32px; padding: 4px 12px; border-radius: var(--radius-md); border: 1px solid {{ v.border }}; background: {{ v.bg }}; color: {{ v.fg }}; font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer;">{{ v.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display: flex; gap: 6px;">
+      <sc-for list="{{ deviceOptions }}" as="d" hint-placeholder-count="2">
+        <button type="button" onClick="{{ d.select }}" style="min-height: 32px; padding: 4px 12px; border-radius: var(--radius-md); border: 1px solid {{ d.border }}; background: {{ d.bg }}; color: {{ d.fg }}; font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer;">{{ d.label }}</button>
+      </sc-for>
+    </div>
+    <span style="font-size: 14px; color: var(--text-muted);">{{ variantNote }}</span>
+  </div>
+
+  <div style="display: flex; justify-content: center; padding: {{ framePad }};">
+    <div style="width: {{ frameWidth }}; max-width: 100%; background: var(--canvas); border: {{ frameBorder }}; border-radius: {{ frameRadius }}; overflow: hidden;">
+
+      <header style="position: sticky; top: 0; z-index: 20; background: var(--surface-card); border-bottom: 1px solid var(--border-hairline); padding: 0 20px; display: flex; align-items: center; gap: 32px; min-height: 60px;">
+        <a href="#" style="font-size: 20px; font-weight: 700; letter-spacing: -.5px; color: var(--text-heading); text-decoration: none;">D-g</a>
+        <nav aria-label="Navigation principale" style="display: flex; gap: 24px; align-items: stretch; flex: 1;">
+          <sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="3">
+            <a href="#" aria-current="{{ n.current }}" style="display: flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--text-body); font-weight: {{ n.weight }}; text-decoration: none; box-shadow: inset 0 -2px 0 {{ n.underline }};">{{ n.label }}</a>
+          </sc-for>
+        </nav>
+        <button type="button" style="display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 10px; border: none; background: none; font-family: var(--font-sans); font-size: 15px; color: var(--text-body); cursor: pointer;">Compte<span aria-hidden="true" style="color: var(--text-faint);">▾</span></button>
+      </header>
+
+      <main style="max-width: 1200px; margin: 0 auto; padding: {{ mainPad }};">
+
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+          <h1 style="margin: 0; font-size: {{ h1Size }}; font-weight: 700; letter-spacing: -.625px; line-height: 1.23; color: var(--text-heading);">Réparations</h1>
+          <button type="button" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: none; border-radius: var(--radius-full); background: var(--action); color: var(--on-action); font-family: var(--font-sans); font-size: 16px; font-weight: 500; cursor: pointer;" style-hover="background: var(--action-pressed)" style-active="transform: scale(.96)">
+            <span aria-hidden="true" style="font-size: 18px; line-height: 1;">+</span>Nouvelle réparation
+          </button>
+        </div>
+
+        <div role="tablist" aria-label="Portée de la liste" style="display: flex; gap: 4px; margin-top: 20px; border-bottom: 1px solid var(--border-hairline); overflow-x: auto;">
+          <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+            <button type="button" role="tab" aria-selected="{{ t.selected }}" aria-current="{{ t.current }}" onClick="{{ t.select }}" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: none; background: none; font-family: var(--font-sans); font-size: 15px; font-weight: {{ t.weight }}; color: var(--text-body); cursor: pointer; white-space: nowrap; box-shadow: inset 0 -2px 0 {{ t.underline }};" style-hover="background: var(--canvas)">
+              {{ t.label }}<span style="font-size: 13px; color: var(--text-muted); font-weight: 400;">{{ t.count }}</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 16px;">
+          <div style="position: relative; flex: 1 1 260px; min-width: 200px;">
+            <span aria-hidden="true" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-faint); display: flex;">{{ searchIcon }}</span>
+            <input ref="{{ searchRef }}" type="search" value="{{ q }}" onChange="{{ onSearch }}" aria-label="Rechercher un client ou un vélo" placeholder="Rechercher un client ou un vélo" style="width: 100%; box-sizing: border-box; min-height: 44px; padding: 0 12px 0 38px; border: 1px solid var(--border-input); border-radius: var(--radius-xs); background: var(--surface-card); font-family: var(--font-sans); font-size: 16px; color: var(--text-body);">
+          </div>
+          <select value="{{ statut }}" onChange="{{ onStatut }}" aria-label="Filtrer par statut" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--border-input); border-radius: var(--radius-xs); background: var(--surface-card); font-family: var(--font-sans); font-size: 16px; color: var(--text-body);">
+            <sc-for list="{{ statutOptions }}" as="o" hint-placeholder-count="8">
+              <option value="{{ o.value }}">{{ o.label }}</option>
+            </sc-for>
+          </select>
+          <select value="{{ reparateur }}" onChange="{{ onReparateur }}" aria-label="Filtrer par réparateur" style="min-height: 44px; padding: 0 12px; border: 1px solid var(--border-input); border-radius: var(--radius-xs); background: var(--surface-card); font-family: var(--font-sans); font-size: 16px; color: var(--text-body);">
+            <sc-for list="{{ reparateurOptions }}" as="o" hint-placeholder-count="5">
+              <option value="{{ o.value }}">{{ o.label }}</option>
+            </sc-for>
+          </select>
+          <sc-if value="{{ hasFilters }}">
+            <button type="button" onClick="{{ clearFilters }}" style="min-height: 44px; padding: 0 14px; border: 1px solid var(--border-input); border-radius: var(--radius-md); background: var(--surface-card); font-family: var(--font-sans); font-size: 15px; color: var(--text-body); cursor: pointer;" style-hover="background: var(--canvas)">{{ clearLabel }}</button>
+          </sc-if>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 14px 0 10px; flex-wrap: wrap;">
+          <p style="margin: 0; font-size: 14px; color: var(--text-muted);">{{ counterLabel }}</p>
+          <sc-if value="{{ showSortSelect }}" hint-placeholder-val="{{ false }}">
+            <select value="{{ tri }}" onChange="{{ onTri }}" aria-label="Trier par" style="min-height: 44px; padding: 0 10px; border: 1px solid var(--border-input); border-radius: var(--radius-xs); background: var(--surface-card); font-family: var(--font-sans); font-size: 15px;">
+              <sc-for list="{{ triOptions }}" as="o" hint-placeholder-count="4">
+                <option value="{{ o.value }}">{{ o.label }}</option>
+              </sc-for>
+            </select>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ isTable }}" hint-placeholder-val="{{ true }}">
+          <div style="background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-lg); overflow-x: auto;">
+            <table style="width: 100%; min-width: 860px; font-size: 15px;">
+              <caption style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Réparations de l'atelier</caption>
+              <thead>
+                <tr style="background: var(--surface-card); border-bottom: 1px solid var(--border-hairline);">
+                  <sc-for list="{{ columns }}" as="c" hint-placeholder-count="6">
+                    <th scope="col" aria-sort="{{ c.ariaSort }}" style="padding: 10px 16px; text-align: left; font-size: 12px; font-weight: 600; letter-spacing: .125px; text-transform: uppercase; color: var(--text-muted); white-space: nowrap;">
+                      <button type="button" onClick="{{ c.sort }}" style="display: inline-flex; align-items: center; gap: 4px; min-height: 24px; border: none; background: none; padding: 0; font-family: var(--font-sans); font-size: 12px; font-weight: 600; letter-spacing: .125px; text-transform: uppercase; color: {{ c.color }}; cursor: {{ c.cursor }};">{{ c.label }}<span aria-hidden="true">{{ c.arrow }}</span></button>
+                    </th>
+                  </sc-for>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+                  <tr style="border-top: 1px solid var(--border-hairline);" style-hover="background: var(--canvas)">
+                    <td style="padding: {{ rowPad }}; vertical-align: middle;">
+                      <span style="font-weight: 500; color: var(--text-heading);">{{ r.client }}</span>
+                      <span style="display: block; font-size: 13px; color: var(--text-faint); font-variant-numeric: tabular-nums;">{{ r.ref }}</span>
+                    </td>
+                    <td style="padding: {{ rowPad }}; vertical-align: middle; color: var(--text-body); max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ r.velo }}">{{ r.velo }}</td>
+                    <td style="padding: {{ rowPad }}; vertical-align: middle;">
+                      <span style="display: inline-flex; align-items: center; gap: 7px; min-height: 28px; padding: 3px 12px; border-radius: var(--radius-sm); background: {{ r.tint }}; border: 1.5px {{ r.borderStyle }} {{ r.color }}; opacity: {{ r.pillOpacity }};">
+                        <span aria-hidden="true" style="display: flex; color: {{ r.iconColor }};">{{ r.icon }}</span>
+                        <span style="font-size: 14px; font-weight: 600; color: var(--text-body); white-space: nowrap; text-decoration: {{ r.strike }};">{{ r.statusLabel }}</span>
+                        <sc-if value="{{ r.accent }}">
+                          <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: var(--radius-full); background: {{ r.color }};"></span>
+                        </sc-if>
+                      </span>
+                    </td>
+                    <td style="padding: {{ rowPad }}; vertical-align: middle; color: var(--text-body); white-space: nowrap;">{{ r.reparateur }}</td>
+                    <td style="padding: {{ rowPad }}; vertical-align: middle; color: var(--text-muted); white-space: nowrap;" title="{{ r.majTitle }}">{{ r.majLabel }}</td>
+                    <td style="padding: {{ rowPad }}; vertical-align: middle; text-align: right; position: relative;">
+                      <sc-if value="{{ r.locked }}">
+                        <span style="font-size: 13px; color: var(--text-faint);">Clôturée</span>
+                      </sc-if>
+                      <sc-if value="{{ r.canChange }}" hint-placeholder-val="{{ true }}">
+                        <button type="button" aria-haspopup="menu" aria-expanded="{{ r.menuOpen }}" onClick="{{ r.toggleMenu }}" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 1px solid var(--border-input); border-radius: var(--radius-md); background: var(--surface-card); font-family: var(--font-sans); font-size: 14px; font-weight: 500; color: var(--text-body); cursor: pointer; white-space: nowrap;" style-hover="background: var(--canvas)">Changer le statut<span aria-hidden="true" style="color: var(--text-faint);">▾</span></button>
+                      </sc-if>
+                    </td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <sc-if value="{{ isEmpty }}">
+              <div style="padding: 48px 24px; text-align: center;">
+                <p style="margin: 0 0 16px; font-size: 16px; color: var(--text-muted);">{{ emptyMessage }}</p>
+                <button type="button" onClick="{{ clearFilters }}" style="min-height: 44px; padding: 0 16px; border: 1px solid var(--border-input); border-radius: var(--radius-md); background: var(--surface-card); font-family: var(--font-sans); font-size: 15px; cursor: pointer;">Effacer les filtres</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isCards }}">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+              <div style="background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 14px 14px 10px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                  <span style="display: inline-flex; align-items: center; gap: 7px; min-height: 28px; padding: 3px 12px; border-radius: var(--radius-sm); background: {{ r.tint }}; border: 1.5px {{ r.borderStyle }} {{ r.color }}; opacity: {{ r.pillOpacity }};">
+                    <span aria-hidden="true" style="display: flex; color: {{ r.iconColor }};">{{ r.icon }}</span>
+                    <span style="font-size: 14px; font-weight: 600; color: var(--text-body); text-decoration: {{ r.strike }};">{{ r.statusLabel }}</span>
+                    <sc-if value="{{ r.accent }}">
+                      <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: var(--radius-full); background: {{ r.color }};"></span>
+                    </sc-if>
+                  </span>
+                  <span aria-hidden="true" style="color: var(--text-faint); font-size: 18px;">›</span>
+                </div>
+                <p style="margin: 10px 0 0; font-size: 16px; font-weight: 500; color: var(--text-heading);">{{ r.client }}</p>
+                <p style="margin: 2px 0 0; font-size: 15px; color: var(--text-body);">{{ r.velo }}</p>
+                <p style="margin: 6px 0 0; font-size: 14px; color: var(--text-muted);">{{ r.metaLine }}</p>
+                <sc-if value="{{ r.canChange }}" hint-placeholder-val="{{ true }}">
+                  <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-hairline); position: relative;">
+                    <button type="button" aria-haspopup="menu" aria-expanded="{{ r.menuOpen }}" onClick="{{ r.toggleMenu }}" style="display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid var(--border-input); border-radius: var(--radius-md); background: var(--surface-card); font-family: var(--font-sans); font-size: 15px; font-weight: 500; color: var(--text-body); cursor: pointer;">Changer le statut<span aria-hidden="true" style="color: var(--text-faint);">▾</span></button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ r.locked }}">
+                  <p style="margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--border-hairline); font-size: 14px; color: var(--text-faint);">Cette réparation est clôturée. Le statut ne peut plus être modifié.</p>
+                </sc-if>
+              </div>
+            </sc-for>
+            <sc-if value="{{ isEmpty }}">
+              <div style="background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 40px 20px; text-align: center;">
+                <p style="margin: 0 0 16px; font-size: 16px; color: var(--text-muted);">{{ emptyMessage }}</p>
+                <button type="button" onClick="{{ clearFilters }}" style="min-height: 44px; padding: 0 16px; border: 1px solid var(--border-input); border-radius: var(--radius-md); background: var(--surface-card); font-family: var(--font-sans); font-size: 15px; cursor: pointer;">Effacer les filtres</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <nav aria-label="Pagination" style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 20px;">
+          <button type="button" onClick="{{ prevPage }}" disabled="{{ prevDisabled }}" style="min-height: 44px; padding: 0 14px; border: 1px solid var(--border-input); border-radius: var(--radius-md); background: var(--surface-card); font-family: var(--font-sans); font-size: 15px; color: var(--text-body); cursor: pointer; opacity: {{ prevOpacity }};">‹ Précédent</button>
+          <span style="font-size: 15px; color: var(--text-muted); font-variant-numeric: tabular-nums;">{{ pageLabel }}</span>
+          <button type="button" onClick="{{ nextPage }}" disabled="{{ nextDisabled }}" style="min-height: 44px; padding: 0 14px; border: 1px solid var(--border-input); border-radius: var(--radius-md); background: var(--surface-card); font-family: var(--font-sans); font-size: 15px; color: var(--text-body); cursor: pointer; opacity: {{ nextOpacity }};">Suivant ›</button>
+        </nav>
+
+        <p style="margin: 24px 0 0; font-size: 13px; color: var(--text-faint); word-break: break-all;">{{ urlLine }}</p>
+      </main>
+
+      <div aria-live="polite" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{ liveMessage }}</div>
+    </div>
+  </div>
+
+  <sc-if value="{{ menuOpen }}">
+    <div onClick="{{ closeMenu }}" style="position: fixed; inset: 0; z-index: 50;">
+      <div role="menu" aria-label="Changer le statut" onClick="{{ stopClick }}" style="position: fixed; top: {{ menuTop }}; left: {{ menuLeft }}; width: 272px; background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); padding: 6px; text-align: left;">
+        <p style="margin: 4px 10px 6px; font-size: 12px; font-weight: 600; letter-spacing: .125px; text-transform: uppercase; color: var(--text-faint);">{{ menuRef }}</p>
+        <sc-for list="{{ menuItems }}" as="m" hint-placeholder-count="6">
+          <button type="button" role="menuitem" onClick="{{ m.apply }}" style="display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 10px; border: none; border-radius: var(--radius-sm); background: none; font-family: var(--font-sans); font-size: 15px; color: var(--text-body); cursor: pointer; text-align: left;" style-hover="background: var(--canvas)">
+            <span aria-hidden="true" style="width: 8px; height: 8px; border-radius: var(--radius-full); background: {{ m.color }}; flex: none;"></span>{{ m.label }}
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toastOpen }}">
+    <div role="status" style="position: fixed; right: 24px; bottom: 24px; z-index: 60; display: flex; align-items: center; gap: 10px; max-width: 360px; padding: 14px 18px; background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-xl); box-shadow: var(--shadow-2); animation: dgToastIn 260ms cubic-bezier(.2,0,0,1);">
+      <span aria-hidden="true" style="width: 8px; height: 8px; border-radius: var(--radius-full); background: {{ toastColor }}; flex: none;"></span>
+      <span style="font-size: 15px; color: var(--text-body);">{{ toastText }}</span>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 1000}}">
+const ORDER = ['deposited', 'diagnosis', 'waiting_for_part', 'in_progress', 'ready_for_pickup', 'returned', 'cancelled'];
+
+const ICONS = {
+  package: [['path', 'm7.5 4.27 9 5.15'], ['path', 'M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z'], ['path', 'm3.3 7 8.7 5 8.7-5'], ['path', 'M12 22V12']],
+  search: [['circle', 11, 11, 8], ['path', 'm21 21-4.3-4.3']],
+  pause: [['rect', 14, 4, 4, 16], ['rect', 6, 4, 4, 16]],
+  wrench: [['path', 'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z']],
+  check: [['circle', 12, 12, 10], ['path', 'm9 12 2 2 4-4']],
+  checkcheck: [['path', 'M18 6 7 17l-5-5'], ['path', 'm22 10-7.5 7.5L13 16']],
+  xcircle: [['circle', 12, 12, 10], ['path', 'm15 9-6 6'], ['path', 'm9 9 6 6']]
+};
+
+function icon(kind, size) {
+  const parts = (ICONS[kind] || []).map((p, i) => p[0] === 'circle'
+    ? React.createElement('circle', { key: i, cx: p[1], cy: p[2], r: p[3] })
+    : p[0] === 'rect'
+      ? React.createElement('rect', { key: i, x: p[1], y: p[2], width: p[3], height: p[4], rx: 1 })
+      : React.createElement('path', { key: i, d: p[1] }));
+  return React.createElement('svg', {
+    width: size, height: size, viewBox: '0 0 24 24', fill: 'none',
+    stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round',
+    'aria-hidden': 'true', focusable: 'false'
+  }, parts);
+}
+
+const STATUS = {
+  deposited: { label: 'Vélo déposé', color: 'var(--sticker-sky)', iconColor: '#1f6ba8', tint: 'var(--status-received-tint)', icon: 'package', borderStyle: 'solid' },
+  diagnosis: { label: 'Diagnostic', color: 'var(--sticker-purple)', iconColor: 'var(--sticker-purple-deep)', tint: 'var(--status-diagnostic-tint)', icon: 'search', borderStyle: 'solid' },
+  waiting_for_part: { label: 'En attente de pièce', color: 'var(--sticker-orange)', iconColor: 'var(--sticker-orange-deep)', tint: 'var(--status-waiting-part-tint)', icon: 'pause', borderStyle: 'dashed' },
+  in_progress: { label: 'Réparation en cours', color: 'var(--sticker-teal)', iconColor: '#1c6f6c', tint: 'var(--status-in-progress-tint)', icon: 'wrench', borderStyle: 'solid' },
+  ready_for_pickup: { label: 'Prêt à récupérer', color: 'var(--sticker-green)', iconColor: '#127a28', tint: 'var(--status-ready-tint)', icon: 'check', borderStyle: 'solid', accent: true },
+  returned: { label: 'Restitué', color: 'var(--ink-3)', iconColor: 'var(--text-muted)', tint: 'var(--status-collected-tint)', icon: 'checkcheck', borderStyle: 'solid', muted: true },
+  cancelled: { label: 'Annulé', color: 'var(--text-faint)', iconColor: 'var(--text-muted)', tint: 'var(--canvas)', icon: 'xcircle', borderStyle: 'solid', strike: true }
+};
+
+const MECHS = ['Sophie Martin', 'Karim Belaïd', 'Léa Vasseur', 'Tom Rivière'];
+const ME = 'Sophie Martin';
+
+// [ref, client, vélo, statut, réparateur, minutes depuis la dernière modification]
+const DATA = [
+  [1042, 'Martin Dupont', 'VTC Btwin Riverside 500 — gris', 'waiting_for_part', 'Sophie Martin', 125],
+  [1041, 'Lan Nguyen', 'Route Trek Domane AL — bleu', 'in_progress', 'Karim Belaïd', 240],
+  [1040, 'Alice Fournier', 'VTT Rockrider ST 540 — noir', 'ready_for_pickup', 'Sophie Martin', 1500],
+  [1039, 'Bruno Castel', 'Ville Gazelle Orange C7 — vert', 'diagnosis', 'Léa Vasseur', 55],
+  [1038, 'Sarah Benali', 'Électrique Moustache Samedi 27', 'in_progress', 'Sophie Martin', 90],
+  [1037, 'Hugo Lemaire', 'Gravel Genesis Croix de Fer', 'deposited', 'Tom Rivière', 20],
+  [1036, 'Claire Vidal', 'Pliant Brompton C Line — noir', 'waiting_for_part', 'Karim Belaïd', 2880],
+  [1035, 'Yanis Roche', 'BMX Sunday Blueprint', 'ready_for_pickup', 'Tom Rivière', 300],
+  [1034, 'Émilie Garnier', 'VTC Giant Escape 3 — blanc', 'returned', 'Sophie Martin', 4320],
+  [1033, 'Paul Mercier', 'Route Specialized Allez — rouge', 'in_progress', 'Léa Vasseur', 45],
+  [1032, 'Nadia Cherif', 'Cargo Yuba Kombi — beige', 'diagnosis', 'Karim Belaïd', 180],
+  [1031, 'Thomas Bonnet', 'VTT Scott Aspect 950', 'cancelled', 'Tom Rivière', 5760],
+  [1030, 'Julie Petit', 'Ville Peugeot LC01 — bordeaux', 'deposited', 'Sophie Martin', 15],
+  [1029, 'Antoine Leroy', 'Électrique Decathlon LD 500', 'waiting_for_part', 'Léa Vasseur', 600],
+  [1028, 'Fatou Diallo', 'VTC Cube Nature Pro — gris', 'ready_for_pickup', 'Karim Belaïd', 720],
+  [1027, 'Marc Delaunay', 'Route Canyon Endurace — noir', 'in_progress', 'Sophie Martin', 30],
+  [1026, 'Sonia Faure', 'VTT Lapierre Edge 3.7 — bleu', 'returned', 'Tom Rivière', 8640],
+  [1025, 'Kevin Marchand', 'Ville Btwin Elops 520 — vert', 'diagnosis', 'Sophie Martin', 400],
+  [1024, 'Léa Chauvin', 'Gravel Triban GRVL 520', 'deposited', 'Karim Belaïd', 65],
+  [1023, 'Olivier Barbier', 'Électrique Riese & Müller Nevo', 'waiting_for_part', 'Tom Rivière', 1440],
+  [1022, 'Amina Sow', 'VTC Trek FX 2 — argent', 'in_progress', 'Léa Vasseur', 210],
+  [1021, 'Gilles Perrot', 'Route Bianchi Via Nirone — céleste', 'ready_for_pickup', 'Sophie Martin', 960],
+  [1020, 'Manon Aubert', 'Pliant Tern Link C8 — gris', 'returned', 'Karim Belaïd', 11520],
+  [1019, 'Rachid Amrani', 'VTT Commencal Meta HT — orange', 'diagnosis', 'Tom Rivière', 480],
+  [1018, 'Camille Roussel', 'Ville Rayon Cycles Solstice', 'deposited', 'Léa Vasseur', 8],
+  [1017, 'Vincent Colin', 'Électrique Cannondale Adventure', 'in_progress', 'Karim Belaïd', 150],
+  [1016, 'Inès Berger', 'VTC Kalkhoff Endeavour — noir', 'cancelled', 'Sophie Martin', 14400],
+  [1015, 'Pierre Gauthier', 'Route Cervélo Caledonia — blanc', 'waiting_for_part', 'Sophie Martin', 2160],
+  [1014, 'Chloé Masson', 'VTT Orbea Laufey H30 — vert', 'returned', 'Léa Vasseur', 17280],
+  [1013, 'Samir Haddad', 'Cargo Babboe City — brun', 'ready_for_pickup', 'Tom Rivière', 1080]
+];
+
+const NOW = new Date(2026, 6, 26, 14, 32);
+const PAGE_SIZE = 25;
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+function absolute(d) { return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear(); }
+
+function relative(minutes) {
+  const d = new Date(NOW.getTime() - minutes * 60000);
+  if (minutes < 60) return 'il y a ' + Math.max(1, Math.round(minutes)) + ' min';
+  if (minutes < 1440) { const h = Math.round(minutes / 60); return 'il y a ' + h + (h > 1 ? ' heures' : ' heure'); }
+  if (minutes < 2880) return 'hier à ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  if (minutes < 10080) return 'il y a ' + Math.floor(minutes / 1440) + ' jours';
+  return absolute(d);
+}
+
+function fullDate(minutes) {
+  const d = new Date(NOW.getTime() - minutes * 60000);
+  return absolute(d) + ' à ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+}
+
+function norm(s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+
+class Component extends DCLogic {
+  state = {
+    variant: 'confortable',
+    device: 'desktop',
+    portee: 'mes',
+    q: '',
+    statut: '',
+    reparateur: '',
+    tri: 'maj',
+    sens: 'desc',
+    page: 1,
+    menu: null,
+    toast: null,
+    live: '',
+    overrides: {}
+  };
+
+  componentDidMount() {
+    this.searchRef = React.createRef();
+    this._key = (e) => {
+      if (e.key === '/' && document.activeElement && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        if (this.searchRef && this.searchRef.current) this.searchRef.current.focus();
+      }
+      if (e.key === 'Escape') this.setState({ menu: null });
+    };
+    window.addEventListener('keydown', this._key);
+    this.forceUpdate();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._key);
+    if (this._t) clearTimeout(this._t);
+  }
+
+  set(patch) { this.setState({ page: 1, menu: null, ...patch }); }
+
+  openMenu(e, id) {
+    if (this.state.menu && this.state.menu.id === id) { this.setState({ menu: null }); return; }
+    const rect = e.currentTarget.getBoundingClientRect();
+    const W = 272, H = 6 * 44 + 34;
+    let left = Math.min(Math.max(8, rect.right - W), window.innerWidth - W - 8);
+    let top = rect.bottom + 4;
+    if (top + H > window.innerHeight - 8) top = Math.max(8, rect.top - H - 4);
+    this.setState({ menu: { id, top, left } });
+  }
+
+  statusOf(ref) { return this.state.overrides[ref] || (DATA.find((r) => r[0] === ref) || [])[3]; }
+
+  apply(ref, next) {
+    const label = STATUS[next].label;
+    this.setState((s) => ({
+      overrides: { ...s.overrides, [ref]: next },
+      menu: null,
+      toast: { text: 'Statut mis à jour : ' + label, color: STATUS[next].color },
+      live: 'Statut mis à jour : ' + label + '.'
+    }));
+    if (this._t) clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ toast: null }), 4000);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const mobile = s.device === 'mobile';
+    const dense = s.variant === 'dense';
+    const cards = s.variant === 'cartes' || mobile;
+
+    const all = DATA.map((d) => ({
+      ref: 'DG-' + d[0], id: d[0], client: d[1], velo: d[2],
+      status: this.statusOf(d[0]), reparateur: d[4], minutes: d[5]
+    }));
+
+    const openCount = all.filter((r) => r.status !== 'returned' && r.status !== 'cancelled').length;
+
+    let rows = all.filter((r) => {
+      if (s.portee === 'mes' && (r.reparateur !== ME || r.status === 'returned' || r.status === 'cancelled')) return false;
+      if (s.portee === 'en-cours' && (r.status === 'returned' || r.status === 'cancelled')) return false;
+      if (s.statut && r.status !== s.statut) return false;
+      if (s.reparateur && r.reparateur !== s.reparateur) return false;
+      if (s.q.trim().length > 0 && !(norm(r.client).includes(norm(s.q)) || norm(r.velo).includes(norm(s.q)))) return false;
+      return true;
+    });
+
+    const dir = s.sens === 'asc' ? 1 : -1;
+    rows.sort((a, b) => {
+      if (s.tri === 'client') return a.client.localeCompare(b.client, 'fr') * dir;
+      if (s.tri === 'statut') return (ORDER.indexOf(a.status) - ORDER.indexOf(b.status)) * dir;
+      if (s.tri === 'reparateur') return a.reparateur.localeCompare(b.reparateur, 'fr') * dir;
+      return (a.minutes - b.minutes) * (s.sens === 'desc' ? 1 : -1);
+    });
+
+    const total = rows.length;
+    const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    const page = Math.min(s.page, pages);
+    const paged = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+    const filterCount = (s.q.trim() ? 1 : 0) + (s.statut ? 1 : 0) + (s.reparateur ? 1 : 0);
+
+    const mkVariant = (key, label) => ({
+      label, select: () => this.setState({ variant: key, menu: null }),
+      bg: s.variant === key ? 'var(--action)' : 'var(--surface-card)',
+      fg: s.variant === key ? 'var(--on-action)' : 'var(--text-body)',
+      border: s.variant === key ? 'var(--action)' : 'var(--border-input)'
+    });
+    const mkDevice = (key, label) => ({
+      label, select: () => this.setState({ device: key, menu: null }),
+      bg: s.device === key ? 'var(--ink-1)' : 'var(--surface-card)',
+      fg: s.device === key ? 'var(--white)' : 'var(--text-body)',
+      border: s.device === key ? 'var(--ink-1)' : 'var(--border-input)'
+    });
+
+    const tab = (key, label, count) => ({
+      label, count: '· ' + count,
+      selected: s.portee === key ? 'true' : 'false',
+      current: s.portee === key ? 'page' : undefined,
+      weight: s.portee === key ? 600 : 400,
+      underline: s.portee === key ? 'var(--action)' : 'transparent',
+      select: () => this.set({ portee: key })
+    });
+
+    const col = (key, label, sortable) => ({
+      label,
+      color: s.tri === key ? 'var(--text-heading)' : 'var(--text-muted)',
+      cursor: sortable ? 'pointer' : 'default',
+      arrow: s.tri === key ? (s.sens === 'asc' ? ' ▲' : ' ▼') : '',
+      ariaSort: !sortable ? undefined : s.tri === key ? (s.sens === 'asc' ? 'ascending' : 'descending') : 'none',
+      sort: sortable ? () => this.setState({ tri: key, sens: s.tri === key && s.sens === 'desc' ? 'asc' : 'desc', menu: null }) : undefined
+    });
+
+    return {
+      variantOptions: [mkVariant('confortable', 'Tableau confortable'), mkVariant('dense', 'Tableau dense'), mkVariant('cartes', 'Cartes')],
+      deviceOptions: [mkDevice('desktop', 'Ordinateur'), mkDevice('mobile', 'Mobile 390 px')],
+      variantNote: mobile ? 'Sous 768 px, le même composant se rend en cartes empilées.' : dense ? 'Densité atelier : plus de lignes visibles sans défilement.' : cards ? 'Rendu carte forcé sur grand écran.' : 'Rendu par défaut sur ordinateur.',
+
+      framePad: mobile ? '32px 24px' : '28px 24px 48px',
+      frameWidth: mobile ? '390px' : '100%',
+      frameBorder: mobile ? '1px solid var(--border-hairline)' : 'none',
+      frameRadius: mobile ? 'var(--radius-xl)' : '0px',
+      mainPad: mobile ? '16px 12px 32px' : '28px 24px 40px',
+      h1Size: mobile ? '22px' : '26px',
+      rowPad: dense ? '8px 16px' : '14px 16px',
+
+      navLinks: [
+        { label: 'Réparations', weight: 600, underline: 'var(--action)', current: 'page' },
+        { label: 'Clients', weight: 400, underline: 'transparent', current: undefined },
+        { label: 'Employés', weight: 400, underline: 'transparent', current: undefined }
+      ],
+
+      tabs: [
+        tab('mes', 'Mes réparations', all.filter((r) => r.reparateur === ME && r.status !== 'returned' && r.status !== 'cancelled').length),
+        tab('en-cours', 'En cours', openCount),
+        tab('toutes', 'Toutes', all.length)
+      ],
+
+      q: s.q,
+      onSearch: (e) => this.set({ q: e.target.value }),
+      searchRef: this.searchRef,
+      searchIcon: icon('search', 18),
+
+      statut: s.statut,
+      onStatut: (e) => this.set({ statut: e.target.value }),
+      statutOptions: [{ value: '', label: 'Statut : tous' }].concat(ORDER.map((k) => ({ value: k, label: STATUS[k].label }))),
+
+      reparateur: s.reparateur,
+      onReparateur: (e) => this.set({ reparateur: e.target.value }),
+      reparateurOptions: [{ value: '', label: 'Réparateur : tous' }].concat(MECHS.map((m) => ({ value: m, label: m }))),
+
+      hasFilters: filterCount > 0,
+      clearLabel: 'Effacer les filtres (' + filterCount + ')',
+      clearFilters: () => this.set({ q: '', statut: '', reparateur: '' }),
+
+      counterLabel: total + (total > 1 ? ' réparations' : ' réparation') + ' · ' + openCount + ' en cours',
+
+      showSortSelect: cards,
+      tri: s.tri,
+      onTri: (e) => this.setState({ tri: e.target.value, menu: null }),
+      triOptions: [
+        { value: 'maj', label: 'Trier par : dernière modification' },
+        { value: 'client', label: 'Trier par : client' },
+        { value: 'statut', label: 'Trier par : statut' },
+        { value: 'reparateur', label: 'Trier par : réparateur' }
+      ],
+
+      isTable: !cards,
+      isCards: cards,
+      isEmpty: total === 0,
+      emptyMessage: filterCount > 0
+        ? 'Aucune réparation ne correspond à votre recherche.'
+        : s.portee === 'mes' ? 'Aucune réparation ne vous est assignée.' : 'Aucune réparation enregistrée pour l\u2019instant.',
+
+      columns: [col('client', 'Client', true), col('velo', 'Vélo', false), col('statut', 'Statut', true), col('reparateur', 'Réparateur', true), col('maj', 'Modifié', true), col('actions', '', false)],
+
+      rows: paged.map((r) => {
+        const st = STATUS[r.status];
+        const locked = r.status === 'returned';
+        return {
+          ...r,
+          statusLabel: st.label,
+          tint: st.tint,
+          color: st.color,
+          iconColor: st.iconColor,
+          borderStyle: st.borderStyle,
+          icon: icon(st.icon, 16),
+          accent: !!st.accent,
+          strike: st.strike ? 'line-through' : 'none',
+          pillOpacity: st.muted ? 0.7 : 1,
+          majLabel: relative(r.minutes),
+          majTitle: fullDate(r.minutes),
+          metaLine: r.reparateur + ' · ' + relative(r.minutes),
+          locked,
+          canChange: !locked,
+          menuOpen: s.menu && s.menu.id === r.id ? 'true' : 'false',
+          toggleMenu: (e) => this.openMenu(e, r.id)
+        };
+      }),
+
+      menuOpen: !!s.menu,
+      menuTop: s.menu ? s.menu.top + 'px' : '0px',
+      menuLeft: s.menu ? s.menu.left + 'px' : '0px',
+      menuRef: s.menu ? 'DG-' + s.menu.id : '',
+      menuItems: s.menu
+        ? ORDER.filter((k) => k !== this.statusOf(s.menu.id)).map((k) => ({
+            label: STATUS[k].label, color: STATUS[k].color, apply: () => this.apply(s.menu.id, k)
+          }))
+        : [],
+      closeMenu: () => this.setState({ menu: null }),
+      stopClick: (e) => e.stopPropagation(),
+
+      pageLabel: 'Page ' + page + ' sur ' + pages,
+      prevDisabled: page <= 1,
+      nextDisabled: page >= pages,
+      prevOpacity: page <= 1 ? 0.4 : 1,
+      nextOpacity: page >= pages ? 0.4 : 1,
+      prevPage: () => this.setState({ page: Math.max(1, page - 1), menu: null }),
+      nextPage: () => this.setState({ page: Math.min(pages, page + 1), menu: null }),
+
+      urlLine: '/reparations?portee=' + s.portee + (s.statut ? '&statut=' + s.statut : '') + (s.q.trim() ? '&q=' + encodeURIComponent(s.q.trim()) : '') + (s.reparateur ? '&reparateur=' + encodeURIComponent(s.reparateur) : '') + '&tri=' + s.tri + '&sens=' + s.sens + '&page=' + page,
+
+      liveMessage: s.live,
+      toastOpen: !!s.toast,
+      toastText: s.toast ? s.toast.text : '',
+      toastColor: s.toast ? s.toast.color : 'var(--action)'
+    };
+  }
+}
+
+</script>
+</body>
+</html>
