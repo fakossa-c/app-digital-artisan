@@ -27,7 +27,7 @@ Le projet Supabase reste hébergé séparément par Supabase.
 | Variable | Portée | Exposée au navigateur | Cible Vercel |
 |---|---|---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | client + serveur | Oui, sans risque | Production, Preview, Development |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | client + serveur | Oui, sans risque — la RLS protège les données | Production, Preview, Development |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | client + serveur | Oui, sans risque — la RLS protège les données | Production, Preview, Development |
 | `SUPABASE_SERVICE_ROLE_KEY` | — | **Jamais** | **Non provisionnée** (voir ci-dessous) |
 
 ### Règle ferme sur la clé `service_role`

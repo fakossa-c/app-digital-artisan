@@ -1,63 +1,78 @@
-import Image from "next/image";
+import { APP_NAME } from "@/lib/constants";
 
+// Page d'accueil temporaire : elle occupe la racine tant que les écrans métier
+// n'existent pas, et sert de point de contrôle de la configuration Supabase.
 export default function Home() {
+  const isSupabaseConfigured = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+  );
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+    <div className="flex flex-1 items-center justify-center bg-[#F8FAFC] px-6 py-12">
+      <main className="w-full max-w-2xl rounded-lg border border-[#E2E8F0] bg-white p-8 shadow-sm">
+        <p className="text-base font-semibold text-[#0F172A]">{APP_NAME}</p>
+
+        <h1 className="mt-6 text-[32px] font-semibold leading-tight text-[#0F172A]">
+          Bienvenue !
+        </h1>
+
+        <p className="mt-4 text-base leading-7 text-[#475569]">
+          Voici la page d’accueil temporaire de l’application de suivi de
+          réparations. Les écrans de l’atelier seront construits story après
+          story ; cette page disparaîtra à ce moment-là.
+        </p>
+
+        <div className="mt-8 rounded-lg border border-[#E2E8F0] p-6">
+          <h2 className="text-xl font-semibold text-[#0F172A]">
+            Connexion à Supabase
+          </h2>
+
+          {isSupabaseConfigured ? (
+            <p className="mt-3 text-base leading-7 text-[#475569]">
+              Configuration détectée. L’application sait joindre votre projet
+              Supabase : vous pouvez enchaîner sur la création du schéma de
+              données.
+            </p>
+          ) : (
+            <>
+              <p className="mt-3 text-base leading-7 text-[#475569]">
+                Aucune configuration détectée. C’est normal si vous venez de
+                cloner le dépôt — l’application n’est reliée à aucune base de
+                données pour l’instant.
+              </p>
+
+              <p className="mt-6 text-sm font-medium text-[#0F172A]">
+                Pour la relier à votre propre projet :
+              </p>
+              <ol className="mt-3 list-decimal space-y-2 pl-5 text-base leading-7 text-[#475569]">
+                <li>
+                  Créez vos projets Supabase et récupérez l’URL et la clé
+                  publique.
+                </li>
+                <li>
+                  Copiez le fichier{" "}
+                  <code className="rounded bg-[#F8FAFC] px-1.5 py-0.5 font-mono text-sm text-[#0F172A]">
+                    .env.local.example
+                  </code>{" "}
+                  en{" "}
+                  <code className="rounded bg-[#F8FAFC] px-1.5 py-0.5 font-mono text-sm text-[#0F172A]">
+                    .env.local
+                  </code>
+                  , puis renseignez vos deux valeurs.
+                </li>
+                <li>Redémarrez le serveur de développement.</li>
+              </ol>
+
+              <p className="mt-6 text-sm leading-6 text-[#475569]">
+                Le détail de ces étapes figure dans les stories 0.4 à 0.7, sous{" "}
+                <code className="rounded bg-[#F8FAFC] px-1.5 py-0.5 font-mono text-sm text-[#0F172A]">
+                  docs/stories/
+                </code>
+                .
+              </p>
+            </>
+          )}
         </div>
       </main>
     </div>
