@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# exercice (hors dépôt)
+exo
+modele-n8n-auth.json
