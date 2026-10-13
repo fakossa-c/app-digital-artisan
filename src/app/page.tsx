@@ -1,6 +1,7 @@
 import { APP_NAME } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import SessionCard from "./session-card";
+import UsersTable from "./users-table";
 
 const code = "rounded bg-[#f6f5f4] px-1.5 py-0.5 font-mono text-sm text-[#31302e]";
 
@@ -13,10 +14,27 @@ export default async function Home() {
   );
 
   let email: string | null = null;
+  let profile: Record<string, unknown> | null = null;
+  let profiles: Record<string, unknown>[] = [];
   if (isSupabaseConfigured) {
     const supabase = await createClient();
     const { data } = await supabase.auth.getUser();
     email = data.user?.email ?? null;
+
+    if (data.user) {
+      // La table `profiles` est créée par l'apprenant dans Supabase : les types générés ne la
+      // connaissent pas encore, d'où le typage lâche. Les lignes absentes ou masquées par les
+      // RLS donnent une liste vide, sans erreur.
+      const { data: rows } = await (supabase as unknown as {
+        from: (t: string) => {
+          select: (c: string) => Promise<{ data: Record<string, unknown>[] | null }>;
+        };
+      })
+        .from("profiles")
+        .select("*");
+      profiles = rows ?? [];
+      profile = profiles.find((row) => row.id === data.user.id) ?? null;
+    }
   }
 
   return (
@@ -55,7 +73,14 @@ export default async function Home() {
           </p>
         </div>
 
-        {isSupabaseConfigured && <SessionCard email={email} />}
+        {isSupabaseConfigured && <SessionCard email={email} profile={profile} />}
+
+        {profiles.length > 0 && (
+          <UsersTable
+            rows={profiles}
+            currentId={typeof profile?.id === "string" ? profile.id : null}
+          />
+        )}
 
         <section className="flex max-w-[480px] flex-col gap-3 rounded-xl border border-[#e6e6e6] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
           <h2 className="text-lg font-semibold text-black">Connexion à Supabase</h2>

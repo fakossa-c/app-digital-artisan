@@ -4,7 +4,17 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 // Bloc « Compte » de l'accueil : confirme visuellement que l'authentification fonctionne.
-export default function SessionCard({ email }: { email: string | null }) {
+export default function SessionCard({
+  email,
+  profile,
+}: {
+  email: string | null;
+  profile: Record<string, unknown> | null;
+}) {
+  const fields = profile
+    ? Object.entries(profile).filter(([key]) => key !== "id")
+    : [];
+
   async function signOut() {
     await createClient().auth.signOut();
     window.location.assign("/auth");
@@ -22,6 +32,24 @@ export default function SessionCard({ email }: { email: string | null }) {
             <span className="h-2 w-2 rounded-full bg-[#1aae39]" />
             Session active
           </span>
+          {profile ? (
+            <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+              {fields.map(([key, value]) => (
+                <div key={key} className="contents">
+                  <dt className="text-[#615d59]">{key}</dt>
+                  <dd className="font-medium text-[#31302e]">{String(value ?? "")}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : (
+            <p
+              role="status"
+              className="mt-2 rounded-lg border border-[#f1d9a8] bg-[#fdf3e0] px-3.5 py-3 text-sm leading-normal text-[#7a4b00]"
+            >
+              Aucun profil visible pour ce compte : la ligne n’existe pas dans la table
+              profiles, ou la protection RLS de la table la masque.
+            </p>
+          )}
           <button
             onClick={signOut}
             className="mt-2 h-10 self-start rounded-lg border border-[#dddddd] bg-white px-4 text-sm font-medium text-[#31302e] hover:bg-[#f6f5f4]"
