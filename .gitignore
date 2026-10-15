@@ -41,11 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# exercice (hors dépôt)
-exo
-modele-n8n-auth-formulaires.json
-exo-rls
-modele-n8n-exo-rls.json
 
 # Claude Code (fichiers locaux)
 .claude/scheduled_tasks.lock
