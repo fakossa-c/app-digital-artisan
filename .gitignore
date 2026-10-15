@@ -43,4 +43,6 @@ next-env.d.ts
 
 # exercice (hors dépôt)
 exo
-modele-n8n-auth.json
+modele-n8n-auth-formulaires.json
+exo-rls
+modele-n8n-exo-rls.json

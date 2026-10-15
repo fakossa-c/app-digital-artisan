@@ -1,5 +1,6 @@
-import { APP_NAME } from "@/lib/constants";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import AppHeader from "./app-header";
 import SessionCard from "./session-card";
 import UsersTable from "./users-table";
 
@@ -39,27 +40,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-1 flex-col bg-[#f6f5f4]">
-      <header className="flex h-16 items-center justify-between border-b border-[#e6e6e6] bg-white px-6 sm:px-12">
-        <div className="flex items-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-[#0075de]">
-            <svg
-              aria-hidden="true"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#fff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-            </svg>
-          </span>
-          <span className="text-lg font-bold tracking-tight text-black">{APP_NAME}</span>
-        </div>
-        {email && <span className="text-sm text-[#615d59]">{email}</span>}
-      </header>
+      <AppHeader email={email} />
 
       <main className="flex flex-col gap-8 px-6 py-12 sm:px-12">
         <div className="flex flex-col gap-2">
@@ -80,6 +61,22 @@ export default async function Home() {
             rows={profiles}
             currentId={typeof profile?.id === "string" ? profile.id : null}
           />
+        )}
+
+        {isSupabaseConfigured && (
+          <section className="flex max-w-[480px] flex-col gap-3 rounded-xl border border-[#e6e6e6] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+            <h2 className="text-lg font-semibold text-black">Exercice RLS</h2>
+            <p className="text-base leading-relaxed text-[#615d59]">
+              Page de test de l’exercice « Protégez une table avec le RLS » : lire et supprimer
+              des réparations avec le compte connecté.
+            </p>
+            <Link
+              href="/reparations"
+              className="mt-2 flex h-11 items-center self-start rounded-lg bg-[#0075de] px-5 text-base font-semibold text-white hover:bg-[#005bab]"
+            >
+              Tester les réparations
+            </Link>
+          </section>
         )}
 
         <section className="flex max-w-[480px] flex-col gap-3 rounded-xl border border-[#e6e6e6] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
