@@ -16,8 +16,7 @@
   1. Vérifier que le dépôt local est bien branché sur le fork (`git remote -v` montre `origin` pointant
      vers le fork).
   2. Initialiser une application Next.js 16.2 en TypeScript strict avec l'App Router.
-  3. Épingler les versions : `packageManager` à `pnpm@10.x`, `engines.node` à la version 24, fichier
-     `.nvmrc` contenant `24`.
+  3. Épingler les versions : `packageManager` à `pnpm@10.x`, `engines.node` à la version 24.
   4. Configurer Tailwind 4.1 : `@import "tailwindcss"` dans le fichier de styles global, plugin
      `@tailwindcss/postcss` déclaré, **aucun** `tailwind.config.js`.
   5. Créer l'arborescence `src/` conforme à l'architecture (`app/`, `features/`, `lib/`,
@@ -30,7 +29,7 @@
 - **Critères d'acceptance :**
   - [ ] `pnpm install` puis `pnpm dev` démarrent l'application sans erreur et une page d'accueil s'affiche.
   - [ ] `package.json` déclare Next.js 16.2.x, React 19.x, TypeScript 5.x et Tailwind 4.1.x.
-  - [ ] `packageManager` vaut `pnpm@10.x`, `engines.node` restreint Node à 24, et `.nvmrc` contient `24`.
+  - [ ] `packageManager` vaut `pnpm@10.x`, et `engines.node` restreint Node à 24.
   - [ ] Tailwind est chargé par `@import "tailwindcss"` et aucun `tailwind.config.js` n'existe dans le dépôt.
   - [ ] Le mode strict de TypeScript est activé et `pnpm exec tsc --noEmit` se termine sans erreur.
   - [ ] La chaîne « D-g » n'apparaît que dans la définition de la constante `APP_NAME`.

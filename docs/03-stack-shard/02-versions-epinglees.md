@@ -12,7 +12,7 @@
 
 | Outil | Version retenue | Justification |
 |---|---|---|
-| **Node.js** | `24.x` (Active LTS) | Active LTS jusqu’en avril 2028. Node 22 est en Maintenance LTS ; Node 26 n’entre en LTS qu’en octobre 2026. Fixée via `.nvmrc` et `engines`. |
+| **Node.js** | `24.x` (Active LTS) | Active LTS jusqu’en avril 2028. Node 22 est en Maintenance LTS ; Node 26 n’entre en LTS qu’en octobre 2026. Fixée via `engines`. |
 | **pnpm** | `10.x` | Rapide, économe en disque, strict sur les dépendances fantômes. Un seul gestionnaire pour tout le projet, lockfile versionné. |
 | **Next.js** | `16.2.x` (Active LTS) | Dernière version stable de la ligne LTS. App Router mature, Server Actions stabilisées. Ne pas viser 16.3 canary. |
 | **React** | `19.x` | Imposée par Next.js 16 : aucune décision à prendre. |
@@ -33,11 +33,6 @@ Fixation de la version de Node et du gestionnaire de paquets dans le dépôt :
   "packageManager": "pnpm@10.15.0",
   "engines": { "node": ">=24.0.0 <25" }
 }
-```
-
-```
-// .nvmrc
-24
 ```
 
 ### Dépendances explicitement écartées du socle
