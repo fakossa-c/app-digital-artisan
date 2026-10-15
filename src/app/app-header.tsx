@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
 
-// En-tête commun des pages de l'application : logo, nom applicatif et compte connecté.
+// En-tête commun des pages de l'application : logo, nom applicatif, navigation et compte connecté.
 export default function AppHeader({ email }: { email: string | null }) {
   return (
     <header className="flex h-16 items-center justify-between border-b border-[#e6e6e6] bg-white px-6 sm:px-12">
@@ -23,7 +23,17 @@ export default function AppHeader({ email }: { email: string | null }) {
         </span>
         <span className="text-lg font-bold tracking-tight text-black">{APP_NAME}</span>
       </Link>
-      {email && <span className="text-sm text-[#615d59]">{email}</span>}
+      <div className="flex items-center gap-6">
+        <nav aria-label="Navigation principale">
+          <Link
+            href="/reparations"
+            className="text-sm font-medium text-[#31302e] hover:text-[#0075de]"
+          >
+            Réparations
+          </Link>
+        </nav>
+        {email && <span className="text-sm text-[#615d59]">{email}</span>}
+      </div>
     </header>
   );
 }

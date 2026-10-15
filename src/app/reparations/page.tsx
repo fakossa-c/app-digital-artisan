@@ -8,7 +8,7 @@ const card =
   "flex max-w-3xl flex-col gap-3 rounded-xl border border-[#e6e6e6] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)]";
 const code = "rounded bg-[#f6f5f4] px-1.5 py-0.5 font-mono text-sm text-[#31302e]";
 
-// Page de l'exercice « Protégez une table avec le RLS » : elle montre ce que le compte connecté
+// Page de test du RLS sur `reparations` : elle montre ce que le compte connecté
 // (ou la clé publique seule) peut lire dans `reparations`, et permet d'essayer de supprimer une
 // ligne. Page temporaire, comme l'accueil : elle disparaît avec les vrais écrans de l'atelier.
 export default async function ReparationsPage() {
@@ -56,16 +56,12 @@ export default async function ReparationsPage() {
           >
             ← Retour à l’accueil
           </Link>
-          <span className="self-start rounded-full bg-[#eef0fb] px-2.5 py-1 text-xs font-semibold text-[#213183]">
-            Exercice RLS
-          </span>
           <h1 className="text-[32px] font-semibold leading-tight tracking-[-0.03em] text-black">
             Réparations
           </h1>
           <p className="max-w-2xl text-base leading-normal text-[#615d59]">
-            Page de test de l’exercice « Protégez une table avec le RLS » : elle affiche ce que la
-            clé publique et le compte connecté ont le droit de lire dans la table{" "}
-            <code className={code}>reparations</code>, rien de plus.
+            Ce que la clé publique et le compte connecté ont le droit de lire dans la table{" "}
+            <code className={code}>reparations</code>, et un essai de suppression.
           </p>
         </div>
 

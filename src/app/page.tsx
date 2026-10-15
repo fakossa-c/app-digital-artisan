@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import AppHeader from "./app-header";
 import SessionCard from "./session-card";
@@ -61,22 +60,6 @@ export default async function Home() {
             rows={profiles}
             currentId={typeof profile?.id === "string" ? profile.id : null}
           />
-        )}
-
-        {isSupabaseConfigured && (
-          <section className="flex max-w-[480px] flex-col gap-3 rounded-xl border border-[#e6e6e6] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
-            <h2 className="text-lg font-semibold text-black">Exercice RLS</h2>
-            <p className="text-base leading-relaxed text-[#615d59]">
-              Page de test de l’exercice « Protégez une table avec le RLS » : lire et supprimer
-              des réparations avec le compte connecté.
-            </p>
-            <Link
-              href="/reparations"
-              className="mt-2 flex h-11 items-center self-start rounded-lg bg-[#0075de] px-5 text-base font-semibold text-white hover:bg-[#005bab]"
-            >
-              Tester les réparations
-            </Link>
-          </section>
         )}
 
         <section className="flex max-w-[480px] flex-col gap-3 rounded-xl border border-[#e6e6e6] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
